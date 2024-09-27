@@ -1,0 +1,23 @@
+{
+  "name": "marstube",
+  "version": "1.0.0",
+  "description": "Node.js + Express.js + MongoDB로 만드는 유튜브 클론코딩",
+  "main": "index.js",
+  "author": {
+    "email": "marshot9420@gmail.com",
+    "name": "marshot9420",
+    "url": "https://github.com/marshot9420"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marshot9420/marstube.git"
+  },
+  "bugs": {
+    "url": "https://github.com/marshot9420/marstube/issues"
+  },
+  "homepage": "https://github.com/marshot9420/marstube#readme",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
