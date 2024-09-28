@@ -1,2 +1,6 @@
 # 의존성
 node_modules
+
+# 환경 변수
+.env*
+!.env.template
