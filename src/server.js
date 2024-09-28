@@ -3,6 +3,7 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import morgan from 'morgan'
+import path from 'path'
 
 import { corsConfig, handleServerListener, initializeEnv } from '@/configs'
 import { CONFIGS, URLS } from '@/constants'
@@ -14,6 +15,9 @@ try {
 
   const app = express()
   logger.info('✅ Express 앱 초기화 완료')
+
+  app.set('views', path.resolve(__dirname, 'views'))
+  app.set('view engine', 'pug')
 
   try {
     const corsOptions = corsConfig()
@@ -48,7 +52,10 @@ try {
   app.use(successInterceptor)
 
   app.get(URLS.API.HOME, (request, response) => {
-    response.send(JSON.stringify({ message: 'Hello World!' }))
+    response.render('index', {
+      title: 'Hello Pug!',
+      message: 'Welcome to Pug Template!',
+    })
   })
 
   app.get(URLS.API.ERROR, (request, response) => {

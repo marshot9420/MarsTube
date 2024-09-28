@@ -5,14 +5,23 @@ export const successInterceptor = (request, response, next) => {
   const originalJson = response.json
 
   response.send = (data) => {
+    const contentType = response.get('Content-Type')
+
+    if (
+      !contentType ||
+      contentType.includes('text/html') ||
+      contentType.includes('text/plain')
+    ) {
+      originalSend.call(response, data)
+      return
+    }
+
     try {
       const parsedData = typeof data === 'string' ? JSON.parse(data) : data
-
       const formattedResponse = {
         status: 'success',
         data: parsedData,
       }
-
       logger.info(
         `✅ ${request.method} ${request.originalUrl} - 응답 데이터: ${JSON.stringify(formattedResponse)}`,
       )
