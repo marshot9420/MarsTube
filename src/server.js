@@ -4,7 +4,8 @@ import morgan from 'morgan'
 
 import { handleServerListener, initializeEnv } from '@/configs'
 import { CONFIGS, URLS } from '@/constants'
-import { logger, morganStream } from '@/libs'
+import { logger, HttpException, morganStream } from '@/libs'
+import { httpExceptionFilter } from '@/middlewares'
 
 initializeEnv()
 
@@ -31,6 +32,16 @@ logger.info('✅ 서버 초기화 완료')
 app.get(URLS.API.HOME, (request, response) => {
   response.send('Hello World!')
 })
+
+app.get('/error', (request, response) => {
+  throw new HttpException('❌ 일반적인 예외가 발생했습니다.', 400)
+})
+
+app.get('/unexpected-error', (request, response) => {
+  JSON.parse('❌ 유효하지 않은 JSON')
+})
+
+app.use(httpExceptionFilter)
 
 try {
   app.listen(CONFIGS.PORT, () => {
