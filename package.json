@@ -18,13 +18,15 @@
   "homepage": "https://github.com/marshot9420/marstube#readme",
   "license": "MIT",
   "scripts": {
-    "dev:server": "node src/server.js"
+    "dev:server": "nodemon src/server.js"
   },
   "dependencies": {
     "express": "^4.21.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.4"
+    "@babel/node": "^7.25.0",
+    "@babel/preset-env": "^7.25.4",
+    "nodemon": "^3.1.7"
   }
 }
