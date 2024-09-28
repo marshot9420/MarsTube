@@ -11,7 +11,7 @@ export const initializeEnv = () => {
       : path.resolve(process.cwd(), '.env.production')
 
   dotenv.config({ path: envFilePath })
-  logger.info(`✅ 환경 변수가 초기화되었습니다.`)
+  logger.info(`✅ 환경 변수가 ${envFilePath}에서 초기화되었습니다.`)
 }
 
 export const handleServerListener = () => {
