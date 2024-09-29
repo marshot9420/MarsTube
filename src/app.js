@@ -24,7 +24,7 @@ export default class Application {
         : path.resolve(process.cwd(), '.env.production')
 
     dotenv.config({ path: envFilePath })
-    logger.info(`✅ 환경 변수 초기화가 완료되었습니다.`)
+    logger.info(`🌍 환경 변수 초기화가 완료되었습니다. [경로: ${envFilePath}]`)
   }
 
   async configureDatabase() {
@@ -55,34 +55,33 @@ export default class Application {
         { stream: morganStream },
       ),
     )
-    logger.info('✅ 로거 설정 완료')
+    logger.info('🔍 로거 설정 완료')
   }
 
   configureMiddleware() {
-    // JSON 파싱, 쿠키 파서 설정
     this.app.use(express.json())
     this.app.use(cookieParser())
-    logger.info('✅ 미들웨어 설정 완료')
+    logger.info('🧩 미들웨어 설정 완료')
 
     try {
       const corsOptions = corsConfig()
       this.app.use(cors(corsOptions))
-      logger.info(`✅ CORS 설정 완료: ${JSON.stringify(corsOptions)}`)
+      logger.info(`🌐 CORS 설정 완료: ${JSON.stringify(corsOptions)}`)
     } catch (error) {
-      logger.error(`❌ CORS 설정 중 오류 발생: ${error.message}`)
+      logger.error(`⚠️ CORS 설정 중 오류 발생: ${error.message}`)
     }
   }
 
   configureViewEngine() {
     this.app.set('views', path.resolve(__dirname, 'views'))
     this.app.set('view engine', 'pug')
-    logger.info('✅ 뷰 엔진(Pug) 설정 완료')
+    logger.info('🖼️ 뷰 엔진(Pug) 설정 완료')
   }
 
   configureInterceptors() {
     this.app.use(successInterceptor)
     this.app.use(httpExceptionFilter)
-    logger.info('✅ 글로벌 인터셉터 및 예외 필터 설정 완료')
+    logger.info('🛠️ 글로벌 인터셉터 및 예외 필터 설정 완료')
   }
 
   configureRoutes() {
@@ -101,7 +100,7 @@ export default class Application {
       JSON.parse('❌ 유효하지 않은 JSON')
     })
 
-    logger.info('✅ 라우트 설정 완료')
+    logger.info('🛣️ 라우트 설정 완료')
   }
 
   async initialize() {
@@ -116,7 +115,7 @@ export default class Application {
 
   start() {
     this.app.listen(CONFIGS.PORT, () => {
-      logger.info(`✅ 서버 수신중: ${CONFIGS.HOST}:${CONFIGS.PORT} 🚀`)
+      logger.info(`🚀 서버 수신 중: ${CONFIGS.HOST}:${CONFIGS.PORT}`)
     })
   }
 }
