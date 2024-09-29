@@ -1,1 +1,2 @@
-export { default as appRouter } from './app.router'
+export { appRouter } from './app.router'
+export { clientRouter } from './clientRouter'

@@ -11,7 +11,7 @@ import { corsConfig } from '@/configs'
 import { CONFIGS, URLS } from '@/constants'
 import { logger, morganStream } from '@/libs'
 import { httpExceptionFilter, successInterceptor } from '@/middlewares'
-import { appRouter } from '@/routers'
+import { appRouter, clientRouter } from '@/routers'
 
 export default class Application {
   constructor() {
@@ -90,6 +90,7 @@ export default class Application {
   }
 
   configureRouters() {
+    this.app.use(URLS.CLIENT.HOME, clientRouter)
     this.app.use(URLS.API.PREFIX, appRouter)
     logger.info('🛣️ 전역 라우트 설정 완료')
   }
