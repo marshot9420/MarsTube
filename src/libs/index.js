@@ -1,2 +1,2 @@
 export * from './logger'
-export * from './http-exception'
+export * from './httpException'

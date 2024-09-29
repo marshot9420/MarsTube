@@ -1,2 +1,2 @@
-export * from './configs.constant'
-export * from './urls.constant'
+export * from './configs'
+export * from './urls'
