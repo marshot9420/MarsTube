@@ -39,23 +39,27 @@ export default class Application {
   }
 
   configureLogger() {
-    this.app.use(
-      morgan(
-        (tokens, request, response) => {
-          return [
-            tokens.method(request, response),
-            tokens.url(request, response),
-            tokens.status(request, response),
-            tokens.res(request, response, 'content-length'),
-            '-',
-            tokens['response-time'](request, response),
-            'ms',
-          ].join(' ')
-        },
-        { stream: morganStream },
-      ),
-    )
-    logger.info('🔍 로거 설정 완료')
+    if (process.env.NODE_ENV === CONFIGS.NODE_ENV.DEVELOPMENT) {
+      this.app.use(
+        morgan(
+          (tokens, req, res) => {
+            return [
+              `[${tokens['remote-addr'](req, res)}]`,
+              tokens.method(req, res),
+              tokens.url(req, res),
+              tokens.status(req, res),
+              `${tokens['response-time'](req, res)}ms`,
+              `- ${tokens.res(req, res, 'content-length') || 0} bytes`,
+              `| User-Agent: ${req.headers['user-agent']}`,
+            ].join(' ')
+          },
+          { stream: morganStream },
+        ),
+      )
+      logger.info('🔍 로거 및 HTTP 로깅(morgan) 설정 완료')
+    } else {
+      logger.info('🔍 로거 설정 완료 (morgan 비활성화)')
+    }
   }
 
   configureMiddleware() {
