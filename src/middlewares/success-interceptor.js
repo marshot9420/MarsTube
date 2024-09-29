@@ -18,10 +18,9 @@ export const successInterceptor = (request, response, next) => {
 
     try {
       const parsedData = typeof data === 'string' ? JSON.parse(data) : data
-      const formattedResponse = {
-        status: 'success',
-        data: parsedData,
-      }
+      const formattedResponse = parsedData?.status
+        ? parsedData
+        : { status: 'success', data: parsedData }
       logger.info(
         `✅ ${request.method} ${request.originalUrl} - 응답 데이터: ${JSON.stringify(formattedResponse)}`,
       )
@@ -33,10 +32,7 @@ export const successInterceptor = (request, response, next) => {
   }
 
   response.json = (data) => {
-    const formattedResponse = {
-      status: 'success',
-      data,
-    }
+    const formattedResponse = data?.status ? data : { status: 'success', data }
     logger.info(
       `✅ ${request.method} ${request.originalUrl} - 응답 데이터: ${JSON.stringify(formattedResponse)}`,
     )

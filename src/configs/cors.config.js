@@ -9,6 +9,7 @@ export const corsConfig = () => {
   logger.info(
     `✅ CORS 설정: ${CONFIGS.DEV_MODE ? '모든 출처 허용' : corsOriginList.join(', ')}`,
   )
+
   return {
     origin: corsOriginList,
     credentials: true,
