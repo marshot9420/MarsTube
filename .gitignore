@@ -7,3 +7,7 @@ node_modules
 
 # 로그 파일
 logs
+
+# 빌드 파일
+build
+public

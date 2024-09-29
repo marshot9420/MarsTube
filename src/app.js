@@ -83,6 +83,11 @@ export default class Application {
     logger.info('🖼️ 뷰 엔진(Pug) 설정 완료')
   }
 
+  configureStaticFiles() {
+    this.app.use(express.static(path.resolve(__dirname, '..', 'public')))
+    logger.info('📂 정적 파일 서빙 설정 완료')
+  }
+
   configureInterceptors() {
     this.app.use(successInterceptor)
     this.app.use(httpExceptionFilter)
@@ -101,6 +106,7 @@ export default class Application {
     this.configureLogger()
     this.configureMiddleware()
     this.configureViewEngine()
+    this.configureStaticFiles()
     this.configureInterceptors()
     this.configureRouters()
   }
