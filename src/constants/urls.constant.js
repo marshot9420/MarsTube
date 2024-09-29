@@ -1,6 +1,7 @@
 export const URLS = {
   API: {
-    HOME: '/',
+    ROOT: '/',
+    PREFIX: '/api',
     ERROR: '/error',
     UNEXPECTED_ERROR: '/unexpected-error',
   },

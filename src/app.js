@@ -11,6 +11,7 @@ import { corsConfig } from '@/configs'
 import { CONFIGS, URLS } from '@/constants'
 import { logger, morganStream } from '@/libs'
 import { httpExceptionFilter, successInterceptor } from '@/middlewares'
+import { appRouter } from '@/routers'
 
 export default class Application {
   constructor() {
@@ -42,15 +43,15 @@ export default class Application {
     if (process.env.NODE_ENV === CONFIGS.NODE_ENV.DEVELOPMENT) {
       this.app.use(
         morgan(
-          (tokens, req, res) => {
+          (tokens, request, response) => {
             return [
-              `[${tokens['remote-addr'](req, res)}]`,
-              tokens.method(req, res),
-              tokens.url(req, res),
-              tokens.status(req, res),
-              `${tokens['response-time'](req, res)}ms`,
-              `- ${tokens.res(req, res, 'content-length') || 0} bytes`,
-              `| User-Agent: ${req.headers['user-agent']}`,
+              `[${tokens['remote-addr'](request, response)}]`,
+              tokens.method(request, response),
+              tokens.url(request, response),
+              tokens.status(request, response),
+              `${tokens['response-time'](request, response)}ms`,
+              `- ${tokens.res(request, response, 'content-length') || 0} bytes`,
+              `| User-Agent: ${request.headers['user-agent']}`,
             ].join(' ')
           },
           { stream: morganStream },
@@ -88,23 +89,9 @@ export default class Application {
     logger.info('🛠️ 글로벌 인터셉터 및 예외 필터 설정 완료')
   }
 
-  configureRoutes() {
-    this.app.get(URLS.API.HOME, (request, response) => {
-      response.render('index', {
-        title: 'Hello Pug!',
-        message: 'Welcome to Pug Template!',
-      })
-    })
-
-    this.app.get(URLS.API.ERROR, (request, response) => {
-      throw new HttpException('❌ 일반적인 예외가 발생했습니다.', 400)
-    })
-
-    this.app.get(URLS.API.UNEXPECTED_ERROR, (request, response) => {
-      JSON.parse('❌ 유효하지 않은 JSON')
-    })
-
-    logger.info('🛣️ 라우트 설정 완료')
+  configureRouters() {
+    this.app.use(URLS.API.PREFIX, appRouter)
+    logger.info('🛣️ 전역 라우트 설정 완료')
   }
 
   async initialize() {
@@ -114,7 +101,7 @@ export default class Application {
     this.configureMiddleware()
     this.configureViewEngine()
     this.configureInterceptors()
-    this.configureRoutes()
+    this.configureRouters()
   }
 
   start() {
